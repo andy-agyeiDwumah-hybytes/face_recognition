@@ -5,7 +5,16 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, firestore } from "../firebase";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 // Constants
 import { FACEDATA, USERS } from "../constants/Constants";
 
@@ -29,6 +38,7 @@ export const signUpUser = async (email, password) => {
   // Store user data in Firestore under 'users' collection
   await setDoc(doc(firestore, USERS, newUser.uid), {
     email: email,
+    password: password,
     uid: newUser.uid,
   });
   return newUser;
@@ -45,6 +55,24 @@ export const logInUser = async (email, password) => {
 
 export const signOutUser = async () => {
   await signOut(auth);
+};
+
+export const getUserPassword = async email => {
+  // Get user information
+  // 'limit 1' - Query will always return one document
+  // as 'matchDetectedFace' function returns a single object
+  const q = query(
+    collection(firestore, USERS),
+    where("email", "==", email),
+    limit(1)
+  );
+
+  let userDoc;
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(doc => {
+    userDoc = doc.data()
+  })
+  return userDoc.password;
 };
 
 // FIREBASE + FACEAPI

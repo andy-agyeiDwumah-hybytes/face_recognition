@@ -9,7 +9,7 @@ import { UserContext } from "../../context/userContext";
 import styles from "./LogInFaceRecognition.module.css"
 // Utils
 import { drawVideoFrameOnCanvas } from "../../utils/canvasUtils"
-import { matchDetectedFace } from "../../utils/authUtils";
+import { getUserPassword, logInUser, matchDetectedFace } from "../../utils/authUtils";
 // React toastify
 import { toast } from "react-toastify";
 
@@ -40,7 +40,11 @@ export default function LogInFaceRecognition({
       try {
         const bestMatch = await matchDetectedFace(faceapi, detections);
         if (bestMatch) {
-          setUser({ uid: bestMatch.uid, email: bestMatch.email });
+          console.log("best match :", bestMatch)
+          // * Make sure to log in user using face detection
+          const userPassword = await getUserPassword(bestMatch.email)
+          const userCredential = await logInUser(bestMatch.email, userPassword);
+          setUser({ uid: userCredential.uid, email: userCredential.email });
           toast.success("Face ID Login was successful.");
           navigate("/home");
         } else {
@@ -48,6 +52,7 @@ export default function LogInFaceRecognition({
         }
       } catch (e) {
         console.error(`(LogInFaceRecognition.jsx): ${e}`);
+        // Also for accounts that are disabled 
         toast.error("There was an error fetching Face Recognition data.");
       }
     }
