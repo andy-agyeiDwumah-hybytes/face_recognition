@@ -82,21 +82,21 @@
 }
 
 .btnSubmit {
-    --btnSubmitColor: #004FFF;
-    background-color: var(--btnSubmitColor);
+    --btnSubmitBackgroundColor: #004FFF;
+    background-color: var(--btnSubmitBackgroundColor);
     color: #fff;
     
     &:hover {
-        background-color: rgba(from var(--btnSubmitColor) r g calc(b - 100) / alpha);
+        background-color: rgba(from var(--btnSubmitBackgroundColor) r g calc(b - 100) / alpha);
     }
 }
 
 .btnToggleFormStatus {
-    --btnToggleColor: #FCFCFF;
-    background-color: var(--btnToggleColor);
+    --btnToggleBackgroundColor: #FCFCFF;
+    background-color: var(--btnToggleBackgroundColor);
 
     &:hover {
-        background-color: rgba(from var(--btnToggleColor) r g calc(b - 50) / alpha);
+        background-color: rgba(from var(--btnToggleBackgroundColor) r g calc(b - 50) / alpha);
     }
 }
 

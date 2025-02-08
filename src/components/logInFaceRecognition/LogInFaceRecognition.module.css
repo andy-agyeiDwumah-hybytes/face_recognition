@@ -14,14 +14,23 @@
 }
 
 .btn {
-    line-height: 1.8;
+    line-height: 2;
     font-size: 1.2rem;
     border-radius: 0.5rem;
-    padding-inline: 1em;
+    padding-inline: 1.2em;
+    box-shadow: 2px 2px #000;
 }
 
 .startScanningBtn {
+    --startScanningBtnBackgroundColor: #040F16;
     margin-inline-end: 0.5em;
+    background-color: var(--startScanningBtnBackgroundColor);
+    color: #fff;
+    transition: background-color 500ms ease-in;
+
+    &:hover {
+        background-color: rgba(from var(--startScanningBtnBackgroundColor) r g calc(b - 50) / alpha);
+    }
 }
 
 .scanningText {
