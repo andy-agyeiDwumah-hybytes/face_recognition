@@ -1,0 +1,13 @@
+.section {
+    padding-inline-start: 1.2em;
+    padding-block-start: 1em;
+}
+
+.greetingWrapper {
+    margin-block-end: 2em;
+}
+
+.userEmail {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+}

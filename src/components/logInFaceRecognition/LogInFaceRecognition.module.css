@@ -1,0 +1,31 @@
+.videoWrapper {
+    padding: 1.5em;
+    background-color: rgba(0 0 0 / 0.5);
+    justify-items: center;
+    align-content: center;
+    border-radius: 5rem;
+}
+
+.video {
+    width: 800px;
+    aspect-ratio: 2;
+    display: block;
+    margin-block-end: 1em;
+}
+
+.btn {
+    line-height: 1.8;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    padding-inline: 1em;
+}
+
+.startScanningBtn {
+    margin-inline-end: 0.5em;
+}
+
+.scanningText {
+    font-weight: 600;
+    color: rgba(0 255 0 / 1);
+    font-size: 1.2rem;
+}

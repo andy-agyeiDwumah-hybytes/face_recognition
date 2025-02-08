@@ -1,0 +1,28 @@
+.setUpFaceWrapper {
+    margin-bottom: 4em;
+}
+
+.video {
+    width: 500px;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border: 1px solid black;
+    display: block;
+    margin-block-end: 0.5em;
+}
+
+.showVideo {
+    display: block;
+}
+
+.hideVideo {
+    display: none;
+}
+
+.cancelBtn {
+    margin-inline-start: 1em;
+}
+
+/* .setUpFaceBtn {
+
+} */
