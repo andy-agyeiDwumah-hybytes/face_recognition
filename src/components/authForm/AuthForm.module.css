@@ -58,6 +58,8 @@
 
 .error {
     color: rgba(255 0 0 / 1);
+    /* * Ensure \n are rendered as line breaks */
+    white-space: pre-line;
 }
 
 .forgotPasswordWrapper {

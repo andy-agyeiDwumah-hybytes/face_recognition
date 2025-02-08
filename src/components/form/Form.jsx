@@ -15,6 +15,9 @@ import { UserContext } from "../../context/userContext";
 import { signUpUser, logInUser } from "../../utils/authUtils";
 // React toastfiy
 import { toast } from "react-toastify";
+// Firebase
+import { validatePassword } from "firebase/auth";
+import { auth } from "../../firebase";
 
 // Error messages
 const bothPasswordFieldsRequired = "Both password fields are required";
@@ -45,11 +48,15 @@ export default function Form() {
     setPasswordError("");
     setEmailError("");
   };
-  // TODO: Password Policy
+
   const handleSignUp = async formData => {
     const userEmail = formData.get("email").trim();
     const userPassword = formData.get("password").trim();
     const userConfirmPassword = formData.get("passwordConfirm").trim();
+    const userPasswordStatus = await validatePassword(auth, userPassword)
+    const userConfirmPasswordStatus = await validatePassword(auth, userConfirmPassword)
+    // Get password policy from Firebase
+    const passwordPolicy = userPasswordStatus.passwordPolicy.customStrengthOptions
     // Check for empty fields and/or email failing validation
     if (
       (!userEmail || !EMAILPATTERN.test(userEmail)) &&
@@ -59,21 +66,25 @@ export default function Form() {
       setPasswordError(bothPasswordFieldsRequired);
       setEmailError(emailErrorText);
     }
-    // Check for Missing password field
+    // Check for missing password field
     if (
       (userPassword !== userConfirmPassword && !userPassword) ||
       !userConfirmPassword
     ) {
       setPasswordError(bothPasswordFieldsRequired);
-      // Check for minimum length not satisfied
+      // Check password meets requirements
     } else if (
-      userPassword.length < MINLENGTHFORPASSWORD ||
-      userConfirmPassword.length < MINLENGTHFORPASSWORD
+      !userPasswordStatus.isValid || !userConfirmPasswordStatus.isValid
     ) {
-      setPasswordError(
-        `Password length must be at least ${MINLENGTHFORPASSWORD} characters`
-      );
-      // Check for Passwords matching
+      let text = "Password must meet the following requirements:\n\n";
+      // Get each password requirement
+      for (const [key, value] of Object.entries(passwordPolicy)) {
+        // Check if field is numeric and show value if true
+        const fieldIsNumeric = typeof value === "number" ? `${key}: ${value}\n` : `${key}\n`
+        text += fieldIsNumeric 
+      }
+      setPasswordError(text);
+      // Check for passwords matching
     } else if (userPassword !== userConfirmPassword) {
       setPasswordError("Passwords do not match");
     } else {
