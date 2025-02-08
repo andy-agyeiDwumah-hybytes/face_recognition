@@ -7,8 +7,8 @@ This project is a simple React application that uses Firebase Authentication and
 
 ## Features ✨
 
-- **Email/Password Authentication:** Users can sign up and log in using Firebase Authentication.
-- **Face Recognition:** Users can set up face recognition and log in with their face.
+* **Email/Password Authentication:** Users can sign up and log in using Firebase Authentication.
+* **Face Recognition:** Users can set up face recognition and log in with their face.
 
 ## Getting Started ✅
 
@@ -16,9 +16,9 @@ Follow these steps to get the project up and running on your local machine.
 
 ### 1. Clone the Repository
 
-`git clone https://github.com/andy-agyeiDwumah-hybytes/face_recognition.git`
+* `git clone https://github.com/andy-agyeiDwumah-hybytes/face_recognition.git`
 
-`cd face_recognition`
+* `cd face_recognition`
 
 ### 2. Create a Firebase Project
 
@@ -33,7 +33,7 @@ Follow these steps to get the project up and running on your local machine.
 Create an `.env` file in the root of your project from the `.env.example` file. Add your
  configuration variables as follows:
 
-`
+```
 VITE_API_KEY=your_api_key_here
 
 VITE_AUTH_DOMAIN=your_project.firebaseapp.com
@@ -47,7 +47,7 @@ VITE_MESSAGING_SENDER_ID=your_messaging_sender_id_here
 VITE_APP_ID=your_app_id_here
 
 VITE_MEASUREMENT_ID=your_measurement_id_here
-`
+```
 
 **This project uses Vite, so the environment variables must be prefixed with `VITE_`**
 
