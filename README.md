@@ -1,23 +1,24 @@
-# Face Recognition Authentication Project
+# Face Recognition Authentication Project 💥
 
 This project is a simple React application that uses Firebase Authentication and
  Cloud Firestore for storing user and face recognition data. It leverages
   [face-api.js](https://github.com/justadudewhohacks/face-api.js) to perform
    face detection and recognition.
 
-## Features
+## Features ✨
 
 - **Email/Password Authentication:** Users can sign up and log in using Firebase Authentication.
 - **Face Recognition:** Users can set up face recognition and log in with their face.
 
-## Getting Started
+## Getting Started ✅
 
 Follow these steps to get the project up and running on your local machine.
 
 ### 1. Clone the Repository
 
-`git clone`
-`cd`
+`git clone https://github.com/andy-agyeiDwumah-hybytes/face_recognition.git`
+
+`cd face_recognition`
 
 ### 2. Create a Firebase Project
 
