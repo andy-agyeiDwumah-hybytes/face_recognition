@@ -8,6 +8,10 @@ html {
   box-sizing: inherit;
 }
 
+body {
+  background-color: #F6F2FF;
+}
+
 button {
   cursor: pointer;
 }

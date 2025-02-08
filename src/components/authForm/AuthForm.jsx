@@ -184,7 +184,7 @@ export default function AuthForm({
               className={[styles.btn, styles.btnToggleFormStatus].join(" ")}
               handleClick={handleClick}
             >
-              {isLogin ? "Sign Up?" : "Log In"}
+              {isLogin ? "Sign Up?" : "Log In?"}
             </FormBtn>
           </div>
         </div>

@@ -3,6 +3,7 @@
     width: min(70%, 550px);
     border: 1px solid #000;
     padding-block-end: 1.5em;
+    box-shadow: 1px 1px 4px rgba(20 0 0 / 1);
 }
 
 .heading {
@@ -76,13 +77,28 @@
 .btn {
     line-height: 2.2;
     font-size: 1rem;
+    transition: background-color 500ms ease-in;
+    box-shadow: 1px 1px 2px #000;
 }
 
-/* .btnSubmit {
+.btnSubmit {
+    --btnSubmitColor: #004FFF;
+    background-color: var(--btnSubmitColor);
+    color: #fff;
+    
+    &:hover {
+        background-color: rgba(from var(--btnSubmitColor) r g calc(b - 100) / alpha);
+    }
 }
 
 .btnToggleFormStatus {
-} */
+    --btnToggleColor: #FCFCFF;
+    background-color: var(--btnToggleColor);
+
+    &:hover {
+        background-color: rgba(from var(--btnToggleColor) r g calc(b - 50) / alpha);
+    }
+}
 
 .forgotPassword {
     display: block;
