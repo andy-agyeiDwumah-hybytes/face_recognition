@@ -68,7 +68,7 @@ export default function LogInFaceRecognition({
       className={[styles.videoWrapper, "popover"].join(" ")}
     >
       <video ref={videoRef} muted autoPlay className={styles.video}></video>
-      <div>
+      <div className={styles.btnWrapper}>
         <button
           type="button"
           onClick={handleLogin}

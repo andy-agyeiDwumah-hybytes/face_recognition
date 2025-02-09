@@ -13,6 +13,11 @@
     margin-block-end: 1em;
 }
 
+.btnWrapper {
+    display: flex;
+    justify-content: center;
+}
+
 .btn {
     line-height: 2;
     font-size: 1.2rem;
@@ -23,7 +28,6 @@
 
 .startScanningBtn {
     --startScanningBtnBackgroundColor: #040F16;
-    margin-inline-end: 0.5em;
     background-color: var(--startScanningBtnBackgroundColor);
     color: #fff;
     transition: background-color 500ms ease-in;
@@ -38,4 +42,25 @@
     font-weight: 600;
     color: var(--clr-secondary);
     font-size: 1.2rem;
+}
+
+@media (width >= 280px) {
+    .btnWrapper {
+        flex-direction: column;
+    }
+    
+    .startScanningBtn {
+        margin-block-end: 1.2em;
+    }
+}
+
+@media (width >= 768px) {
+    .btnWrapper {
+        flex-direction: row;
+    }
+    
+    .startScanningBtn {
+        margin-inline-end: 0.5em;
+        margin-block-end: 0;
+    }
 }
