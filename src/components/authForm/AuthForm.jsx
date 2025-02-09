@@ -39,7 +39,7 @@ export default function AuthForm({
         e.target !== videoRef.current
       ) {
         // Stop all tracks
-        stream.getTracks().forEach((track) => track.stop());
+        stream.getTracks().forEach(track => track.stop());
         setStream(null);
       }
     };
@@ -63,11 +63,9 @@ export default function AuthForm({
   };
 
   const handleCancelVideo = () => {
-    if (stream) {
-      // Stop all tracks
-      stream.getTracks().forEach((track) => track.stop());
-      setStream(null);
-    }
+    // Stop all tracks
+    stream.getTracks().forEach(track => track.stop());
+    setStream(null);
     // Manually hide popover
     popOverRef.current.hidePopover();
   };
