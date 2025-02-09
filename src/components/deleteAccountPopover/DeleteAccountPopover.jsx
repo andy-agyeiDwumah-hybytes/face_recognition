@@ -8,14 +8,18 @@ import { toast } from "react-toastify";
 // Firebase
 import { auth } from "../../firebase";
 // Styles
-import styles from "./DeleteAccountPopover.module.css"
+import styles from "./DeleteAccountPopover.module.css";
 
-export default function DeleteAccountPopover() {
+export default function DeleteAccountPopover({ stream, handleCancelVideo }) {
   const popoverRef = useRef();
   const navigate = useNavigate();
 
   const handleDeleteAccount = async (currentUser) => {
     try {
+      // Stop video (if on) when user deletes account
+      if (stream) {
+        handleCancelVideo();
+      }
       await deleteAccount(currentUser);
       navigate("/");
       toast.success("Account was successfully deleted.");
@@ -27,7 +31,12 @@ export default function DeleteAccountPopover() {
     }
   };
   return (
-    <div ref={popoverRef} popover="auto" id="deletePopover" className={[styles.popover, "popover"].join(" ")}>
+    <div
+      ref={popoverRef}
+      popover="auto"
+      id="deletePopover"
+      className={[styles.popover, "popover"].join(" ")}
+    >
       <h4 className={styles.deleteHeading}>
         Are you sure you would like to delete your account? This action cannot
         be undone.

@@ -13,9 +13,8 @@ import { drawVideoFrameOnCanvas } from "../../utils/canvasUtils";
 // React toastify
 import { toast } from "react-toastify";
 
-export default function SetupFaceRecognition({ user }) {
+export default function SetupFaceRecognition({ user, stream, setStream, handleCancelVideo }) {
   const videoRef = useRef();
-  const [stream, setStream] = useState(null); // Store video stream
   const [faceRecognitionSetUp, setFaceRecognitionSetUp] = useState(false);
   const [isSettingUpFaceRecognition, setIsSettingUpFaceRecognition] =
     useState(false);
@@ -48,14 +47,6 @@ export default function SetupFaceRecognition({ user }) {
     } catch (e) {
       console.error(`(SetUpFace.jsx): ${e}`);
       toast.error("Please allow camera access to set up Face Recognition.");
-    }
-  };
-
-  const handleCancelVideo = () => {
-    if (stream) {
-      // Stop all tracks
-      stream.getTracks().forEach((track) => track.stop());
-      setStream(null);
     }
   };
 

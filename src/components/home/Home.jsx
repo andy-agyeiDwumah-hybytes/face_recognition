@@ -1,5 +1,5 @@
 // React
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
 // Context
 import { UserContext } from "../../context/userContext";
@@ -16,9 +16,20 @@ import { toast } from "react-toastify";
 export default function Home() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const [stream, setStream] = useState(null); // Store video stream
+
+  const handleCancelVideo = () => {
+    // Stop all tracks
+    stream.getTracks().forEach((track) => track.stop());
+    setStream(null);
+  };
 
   const handleSignOut = async () => {
     try {
+      // Stop video (if on) when user signs out
+      if (stream) {
+        handleCancelVideo();
+      }
       await signOutUser();
       navigate("/");
     } catch (e) {
@@ -36,7 +47,12 @@ export default function Home() {
           Hello, <span className={styles.userEmail}>{user.email}</span>
         </p>
       </div>
-      <SetupFaceRecognition user={user} />
+      <SetupFaceRecognition
+        user={user}
+        stream={stream}
+        setStream={setStream}
+        handleCancelVideo={handleCancelVideo}
+      />
       <div className={styles.signOutBtnWrapper}>
         <h3>Sign Out</h3>
         <button
@@ -57,7 +73,10 @@ export default function Home() {
           Delete account
         </button>
       </div>
-      <DeleteAccountPopover />
+      <DeleteAccountPopover
+        stream={stream}
+        handleCancelVideo={handleCancelVideo}
+      />
     </section>
   );
 }
