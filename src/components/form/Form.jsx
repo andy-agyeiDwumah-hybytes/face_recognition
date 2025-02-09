@@ -17,7 +17,8 @@ import { auth } from "../../firebase";
 
 // Error messages
 const bothPasswordFieldsRequired = "Both password fields are required";
-const emailErrorText = "Email should follow this pattern: johnDoe@email.com";
+const emailErrorText =
+  "Please enter a valid email address in the format: example@domain.com (e.g., johnDoe@email.com).";
 const passwordFieldIsRequired = "Password field is required";
 
 export default function Form() {

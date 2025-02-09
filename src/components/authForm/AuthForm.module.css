@@ -68,6 +68,12 @@
     font-size: 1rem;
 }
 
+.forgotPassword {
+    display: inline-block;
+    margin-top: 1em;
+    text-underline-offset: 5px;
+}
+
 .btnWrapper {
     margin-block-start: 1.5em;
     display: flex;
@@ -98,12 +104,6 @@
     &:hover {
         background-color: rgba(from var(--btnToggleBackgroundColor) r g calc(b - 50) / alpha);
     }
-}
-
-.forgotPassword {
-    display: block;
-    margin-top: 1em;
-    text-underline-offset: 5px;
 }
 
 @media (width >= 280px) {
