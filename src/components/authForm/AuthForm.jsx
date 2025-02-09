@@ -14,7 +14,6 @@ export default function AuthForm({
   handleClick,
   isLogin,
   EMAILREGEXPATTERN,
-  MINLENGTHFORPASSWORD,
   email,
   setEmail,
   emailPattern,
@@ -137,8 +136,6 @@ export default function AuthForm({
               name="password"
               id="password"
               placeholder="**************"
-              // Default in firebase password policy
-              minLength={MINLENGTHFORPASSWORD}
               value={password}
               onChange={e => setPassword(e.target.value)}
               className={styles.input}
@@ -156,7 +153,6 @@ export default function AuthForm({
                 name="passwordConfirm"
                 id="passwordConfirm"
                 placeholder="**************"
-                minLength={MINLENGTHFORPASSWORD}
                 value={confirmPassword}
                 onChange={e => setConfirmPassword(e.target.value)}
                 className={styles.input}

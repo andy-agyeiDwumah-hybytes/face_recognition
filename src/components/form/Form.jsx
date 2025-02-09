@@ -1,11 +1,7 @@
 // Components
 import AuthForm from "../authForm/AuthForm";
 // Constants
-import {
-  EMAILREGEXPATTERN,
-  MINLENGTHFORPASSWORD,
-  EMAILPATTERN,
-} from "../../constants/Constants";
+import { EMAILREGEXPATTERN, EMAILPATTERN } from "../../constants/Constants";
 // React
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
@@ -97,8 +93,8 @@ export default function Form() {
       userPassword &&
       userConfirmPassword &&
       userPassword === userConfirmPassword &&
-      userPassword.length >= MINLENGTHFORPASSWORD &&
-      userConfirmPassword.length >= MINLENGTHFORPASSWORD
+      userPasswordStatus.isValid &&
+      userConfirmPasswordStatus.isValid
     ) {
       try {
         // * Simulate login delay (not really necessary, just for experience)
@@ -183,7 +179,6 @@ export default function Form() {
         handleClick={handleClick}
         isLogin={isLogin}
         EMAILREGEXPATTERN={EMAILREGEXPATTERN}
-        MINLENGTHFORPASSWORD={MINLENGTHFORPASSWORD}
         email={email}
         setEmail={setEmail}
         emailPattern={EMAILPATTERN}

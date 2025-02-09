@@ -1,4 +1,4 @@
-.videoWrapper {
+.videoWrapper:popover-open {
     padding: 1.5em;
     background-color: rgba(0 0 0 / 0.5);
     justify-items: center;
@@ -29,7 +29,8 @@
     transition: background-color 500ms ease-in;
 
     &:hover {
-        background-color: rgba(from var(--startScanningBtnBackgroundColor) r g calc(b - 50) / alpha);
+        background-color: rgba(
+            from var(--startScanningBtnBackgroundColor) r g calc(b - 50) / alpha);
     }
 }
 

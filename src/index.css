@@ -1,3 +1,7 @@
+:root {
+  --clr-primary: #F6F2FF;
+}
+
 html {
   box-sizing: border-box;
 }
@@ -9,9 +13,16 @@ html {
 }
 
 body {
-  background-color: #F6F2FF;
+  background-color: var(--clr-primary);
 }
 
 button {
   cursor: pointer;
+}
+
+/* Styles the box, which is the size of the viewport, when popover is open */
+/* Adjust transparency to ensure that content is still visible */
+.popover::backdrop {
+  background-color: rgba(
+    from var(--clr-primary) calc(r - 20) calc(g - 20) calc(b - 20) / calc(alpha - 0.5));
 }

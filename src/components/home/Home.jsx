@@ -1,5 +1,5 @@
 // React
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router";
 // Context
 import { UserContext } from "../../context/userContext";
@@ -7,17 +7,15 @@ import { UserContext } from "../../context/userContext";
 import styles from "./Home.module.css";
 // Components
 import SetupFaceRecognition from "../setUpFaceRecognition/SetUpFaceRecognition";
+import DeleteAccountPopover from "../deleteAccountPopover/deleteAccountPopover";
 // Utils
-import { deleteAccount, signOutUser } from "../../utils/authUtils";
+import { signOutUser } from "../../utils/authUtils";
 // React toastify
 import { toast } from "react-toastify";
-// Firebase
-import { auth } from "../../firebase";
 
 export default function Home() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const popoverRef = useRef()
 
   const handleSignOut = async () => {
     try {
@@ -30,23 +28,6 @@ export default function Home() {
       );
     }
   };
-
-  const handleDeleteAccount = async currentUser => {
-    try {
-      await deleteAccount(currentUser)
-      navigate("/")
-      toast.success("Account was successfully deleted.")
-    } catch (e) {
-      console.error(`(Home.jsx): ${e}`)
-      toast.error(
-        "We encountered an issue while deleting your account. Please try again."
-      );
-    }
-  }
-
-  const handleClick = () => {
-    popoverRef.current.hidePopover()
-  }
 
   return (
     <section className={styles.section} aria-label="Home">
@@ -76,30 +57,7 @@ export default function Home() {
           Delete account
         </button>
       </div>
-      <div
-        ref={popoverRef}
-        popover="auto"
-        id="deletePopover"
-        className={styles.popover}
-      >
-        <h4 className={styles.deleteHeading}>
-          Are you sure you would like to delete your account? This action cannot
-          be undone.
-        </h4>
-        <button
-          type="button"
-          className={[styles.btn, styles.confirmBtn].join(" ")}
-          onClick={() => handleDeleteAccount(auth.currentUser)}
-        >
-          Delete
-        </button>
-        <button
-          type="button"
-          onClick={handleClick}
-          className={[styles.btn, styles.cancelBtn].join(" ")}>
-          Cancel
-        </button>
-      </div>
+      <DeleteAccountPopover />
     </section>
   );
 }
