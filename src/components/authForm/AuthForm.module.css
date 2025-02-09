@@ -1,3 +1,11 @@
+/* Regular custom properties do not allow for animation */
+/* Currently not supported in all browsers */
+@property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
 .form {
     margin: 0 auto;
     width: min(70%, 550px);
@@ -27,18 +35,46 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    /* From Kevin Powell */
+    position: relative;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inset: -.2rem;
+        border-radius: inherit;
+        z-index: -1;
+        background: conic-gradient(
+            from var(--gradient-angle),
+            var(--clr-1),
+            var(--clr-2),
+            var(--clr-3),
+            var(--clr-1));
+        animation: rotation 20s linear infinite;
+    }
+
+    &::after {
+        filter: blur(0.4rem);
+    }
 }
 
 .logInImg {
+    --clr-1: #0e4b50;
+    --clr-2: #7EC4CF;
+    --clr-3: #637c54;
     background-image: url("../../assets/face_id.jpg");
 }
 
 .signUpImg {
+    --clr-1: #EEE5E9;
+    --clr-2: #FEFAE0;
+    --clr-3: #D4AFB9;
     background-image: url("../../assets/get_started.jpg");
 }
 
 .faceIdBtn {
-    margin-block: 0.5em;
+    margin-block: 1.2em;
     transition-property: background-color color;
     transition-duration: 400ms;
     transition-timing-function: ease-in;
@@ -48,7 +84,7 @@
 
     &:hover {
         background-color: #000;
-        color: rgba(0 220 30 / 1);
+        color: var(--clr-secondary);
     }
 }
 
@@ -115,6 +151,11 @@
     &:hover {
         background-color: rgba(from var(--btnToggleBackgroundColor) r g calc(b - 50) / alpha);
     }
+}
+
+@keyframes rotation {
+    0% {--gradient-angle: 0deg;}
+    100% {--gradient-angle: 360deg;}
 }
 
 @media (width >= 280px) {

@@ -1,5 +1,6 @@
 :root {
   --clr-primary: #F6F2FF;
+  --clr-secondary: rgba(0 220 30 / 1);
 }
 
 html {
