@@ -95,14 +95,17 @@ export default function AuthForm({
             ></div>
             {/* Show button to log in with face detection only for those with an account */}
             {isLogin && (
-              <button
-                type="button"
-                className={styles.faceIdBtn}
-                onClick={handleStartCamera}
-                popoverTarget="my-popover"
-              >
-                Log in with face id
-              </button>
+              <>
+                <button
+                  type="button"
+                  className={styles.faceIdBtn}
+                  onClick={handleStartCamera}
+                  popoverTarget="my-popover"
+                >
+                  Log in with face id
+                </button>
+                <p className={styles.paraDivider}>or</p>
+              </>
             )}
           </div>
           <div className={styles.labelInputWrapper}>
@@ -117,7 +120,7 @@ export default function AuthForm({
               pattern={EMAILREGEXPATTERN}
               placeholder="johnDoe@email.com"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className={styles.input}
               required
             />
@@ -135,7 +138,7 @@ export default function AuthForm({
               id="password"
               placeholder="**************"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className={styles.input}
               required
             />
@@ -152,7 +155,7 @@ export default function AuthForm({
                 id="passwordConfirm"
                 placeholder="**************"
                 value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className={styles.input}
                 required
               />

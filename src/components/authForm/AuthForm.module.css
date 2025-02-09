@@ -88,6 +88,35 @@
     }
 }
 
+/* Code for text in middle divider */
+.paraDivider {
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+
+.paraDivider::before,
+.paraDivider::after {
+    background-color: #a3a3a3;
+    content: "";
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.paraDivider::before {
+    right: 0.5em;
+    margin-left: -50%;
+}
+
+.paraDivider::after {
+    left: 0.5em;
+    margin-right: -50%;
+}
+/* End code */
+
 .labelInputWrapper {
     margin-block-start: 1em;
 }
@@ -140,7 +169,8 @@
     color: #fff;
     
     &:hover {
-        background-color: rgba(from var(--btnSubmitBackgroundColor) r g calc(b - 100) / alpha);
+        background-color: rgba(
+            from var(--btnSubmitBackgroundColor) r g calc(b - 100) / alpha);
     }
 }
 
@@ -149,7 +179,8 @@
     background-color: var(--btnToggleBackgroundColor);
 
     &:hover {
-        background-color: rgba(from var(--btnToggleBackgroundColor) r g calc(b - 50) / alpha);
+        background-color: rgba(
+            from var(--btnToggleBackgroundColor) r g calc(b - 50) / alpha);
     }
 }
 
