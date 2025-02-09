@@ -1,6 +1,7 @@
 // Firebase
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -14,6 +15,7 @@ import {
   query,
   setDoc,
   where,
+  writeBatch,
 } from "firebase/firestore";
 // Constants
 import { FACEDATA, USERS } from "../constants/Constants";
@@ -104,12 +106,12 @@ export const matchDetectedFace = async (faceapi, detections) => {
 export const storeFaceDetails = async (
   faceapi,
   user,
-  videoRef,
+  canvas,
   handleCancelVideo,
   toast
 ) => {
   const detections = await faceapi
-    .detectSingleFace(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+    .detectSingleFace(canvas, new faceapi.TinyFaceDetectorOptions())
     .withFaceLandmarks()
     .withFaceDescriptor();
 
@@ -142,3 +144,17 @@ export const checkUserHasFaceDetailsSetUp = async user => {
 
   return docSnap.exists() ? true : false;
 };
+
+export const deleteAccount = async user => {
+  // Handle Firestore deletions atomically
+  const batch = writeBatch(firestore)
+  // Delete Firestore documents associated with the user
+  batch.delete(doc(firestore, USERS, user.uid))
+  batch.delete(doc(firestore, FACEDATA, user.uid))
+  
+  // Commit Firestore deletions
+  await batch.commit()
+
+  // Delete user
+  await deleteUser(user);
+}

@@ -9,6 +9,7 @@ import {
   storeFaceDetails,
   checkUserHasFaceDetailsSetUp,
 } from "../../utils/authUtils";
+import { drawVideoFrameOnCanvas } from "../../utils/canvasUtils";
 // React toastify
 import { toast } from "react-toastify";
 
@@ -63,7 +64,8 @@ export default function SetupFaceRecognition({ user }) {
     // * Simulate login delay (not really necessary, just for experience)
     await new Promise(resolve => setTimeout(resolve, 2000));
     try {
-      await storeFaceDetails(faceapi, user, videoRef, handleCancelVideo, toast);
+      const canvas = drawVideoFrameOnCanvas(videoRef.current)
+      await storeFaceDetails(faceapi, user, canvas, handleCancelVideo, toast);
     } catch (e) {
       console.error(`(SetUpFace.jsx): ${e}`);
       toast.error("There was an error. Please try again.")
