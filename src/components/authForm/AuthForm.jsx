@@ -62,18 +62,21 @@ export default function AuthForm({
     popOverRef.current.hidePopover();
   };
 
-  const handlePasswordChange = async e => {
+  const handlePasswordChange = async (e) => {
     const newPassword = e.target.value
     setPassword(newPassword)
-    const userPasswordStatus = await validatePassword(auth, newPassword.trim());
-    const passwordPolicy =
-    userPasswordStatus.passwordPolicy.customStrengthOptions;
-    
-    if (!userPasswordStatus.isValid) {
-      const text = displayPasswordPolicy(userPasswordStatus, passwordPolicy)
-      setPasswordError(text)
-    } else {
-      setPasswordError("")
+    // No need to show password policy for users that already have an account
+    if (!isLogin) {
+      const userPasswordStatus = await validatePassword(auth, newPassword.trim());
+      const passwordPolicy =
+      userPasswordStatus.passwordPolicy.customStrengthOptions;
+      
+      if (!userPasswordStatus.isValid) {
+        const text = displayPasswordPolicy(userPasswordStatus, passwordPolicy)
+        setPasswordError(text)
+      } else {
+        setPasswordError("")
+      }
     }
   }
 
@@ -103,7 +106,11 @@ export default function AuthForm({
             {/* Show button to log in with face detection only for those with an account */}
             {isLogin && (
               <>
-                <LogInFaceBtn videoRef={videoRef} setStream={setStream} toast={toast} />
+                <LogInFaceBtn
+                  videoRef={videoRef}
+                  setStream={setStream}
+                  toast={toast}
+                />
                 <p className={styles.paraDivider}>or</p>
               </>
             )}

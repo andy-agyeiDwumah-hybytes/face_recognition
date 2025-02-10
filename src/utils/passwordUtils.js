@@ -13,7 +13,7 @@ export const displayPasswordPolicy = (userPasswordStatus, passwordPolicy) => {
       text += "Contains uppercase character\n";
     }
     if (!userPasswordStatus.meetsMinPasswordLength) {
-      text += `Meets minimum password length: ${passwordPolicy.minPasswordLength}`;
+      text += `Minimum password length: ${passwordPolicy.minPasswordLength}`;
     }
     return text
 }
