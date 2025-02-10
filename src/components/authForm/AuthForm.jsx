@@ -39,19 +39,24 @@ export default function AuthForm({
 
   useEffect(() => {
     const cancelVideo = e => {
-      // Close video when click is detected outside popover element
+      // Close video when click is detected outside popover element OR 'esc' key is pressed
       if (
-        stream &&
-        e.target !== popOverRef.current &&
-        e.target !== videoRef.current
+        (stream &&
+          e.target !== popOverRef.current &&
+          e.target !== videoRef.current) ||
+       stream && e.code === "Escape"
       ) {
         // Stop all tracks
-        stream.getTracks().forEach(track => track.stop());
+        stream.getTracks().forEach((track) => track.stop());
         setStream(null);
       }
     };
     document.addEventListener("click", cancelVideo);
-    return () => document.removeEventListener("click", cancelVideo);
+    document.addEventListener("keydown", cancelVideo);
+    return () => {
+      document.removeEventListener("click", cancelVideo);
+      document.removeEventListener("keydown", cancelVideo);
+    }
   });
 
   const handleCancelVideo = () => {
