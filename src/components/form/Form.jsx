@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { UserContext } from "../../context/userContext";
 // Utils
 import { signUpUser, logInUser } from "../../utils/authUtils";
+import { displayPasswordPolicy } from "../../utils/passwordUtils";
 // React toastfiy
 import { toast } from "react-toastify";
 // Firebase
@@ -70,32 +71,7 @@ export default function Form() {
       setPasswordError(bothPasswordFieldsRequired);
       // Check password meets requirements
     } else if (!userPasswordStatus.isValid) {
-      let text = "Password must meet the following requirements:\n\n";
-      let obj = {};
-      // Get each password requirement
-      for (const [key, value] of Object.entries(passwordPolicy)) {
-        // Check if field is numeric and store value
-        if (typeof value === "number") {
-          obj[key] = value
-        } else {
-          obj[key] = ""
-        }
-      }
-      if (!userPasswordStatus.containsLowercaseLetter) {
-        text += "Contains lower case letter\n"
-      }
-      if (!userPasswordStatus.containsNonAlphanumericCharacter) {
-        text += "Contains non alphanumeric character\n";
-      }
-      if (!userPasswordStatus.containsNumericCharacter) {
-        text += "Contains numeric character\n";
-      }
-      if (!userPasswordStatus.containsUppercaseLetter) {
-        text += "Contains uppercase character\n";
-      }
-      if (!userPasswordStatus.meetsMinPasswordLength) {
-        text += `Meets minimum password length: ${obj.minPasswordLength}`;
-      }
+      const text = displayPasswordPolicy(userPasswordStatus, passwordPolicy)
       setPasswordError(text);
       // Check for passwords matching
     } else if (userPassword !== userConfirmPassword) {
@@ -200,6 +176,7 @@ export default function Form() {
       formHasBeenSubmitted={formHasBeenSubmitted}
       password={password}
       setPassword={setPassword}
+      setPasswordError={setPasswordError}
       passwordError={passwordError}
       confirmPassword={confirmPassword}
       setConfirmPassword={setConfirmPassword}

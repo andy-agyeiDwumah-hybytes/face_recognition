@@ -1,6 +1,7 @@
 // Components
 import LogInFaceRecognition from "../logInFaceRecognition/LogInFaceRecognition";
 import FormBtn from "../formBtn/FormBtn";
+import LogInFaceBtn from "../logInFaceBtn/LogInFaceBtn";
 // React
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
@@ -8,6 +9,11 @@ import { Link } from "react-router";
 import styles from "./AuthForm.module.css";
 // React toastify
 import { toast } from "react-toastify";
+// Firebase
+import { validatePassword } from "firebase/auth";
+import { auth } from "../../firebase";
+// Utils
+import { displayPasswordPolicy } from "../../utils/passwordUtils";
 
 export default function AuthForm({
   handleSubmit,
@@ -21,6 +27,7 @@ export default function AuthForm({
   formHasBeenSubmitted,
   password,
   setPassword,
+  setPasswordError,
   passwordError,
   confirmPassword,
   setConfirmPassword,
@@ -47,21 +54,6 @@ export default function AuthForm({
     return () => document.removeEventListener("click", cancelVideo);
   });
 
-  const handleStartCamera = async () => {
-    // Get access to user's camera and show real time video
-    try {
-      const userStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-      });
-      console.log("(AuthForm.jsx) Video stream obtained:\n", userStream);
-      videoRef.current.srcObject = userStream;
-      setStream(userStream);
-    } catch (e) {
-      console.error(`(AuthForm.jsx): ${e}`);
-      toast.error("Please allow camera access to set up Face Recognition.");
-    }
-  };
-
   const handleCancelVideo = () => {
     // Stop all tracks
     stream.getTracks().forEach(track => track.stop());
@@ -69,6 +61,21 @@ export default function AuthForm({
     // Manually hide popover
     popOverRef.current.hidePopover();
   };
+
+  const handlePasswordChange = async e => {
+    const newPassword = e.target.value
+    setPassword(newPassword)
+    const userPasswordStatus = await validatePassword(auth, newPassword.trim());
+    const passwordPolicy =
+    userPasswordStatus.passwordPolicy.customStrengthOptions;
+    
+    if (!userPasswordStatus.isValid) {
+      const text = displayPasswordPolicy(userPasswordStatus, passwordPolicy)
+      setPasswordError(text)
+    } else {
+      setPasswordError("")
+    }
+  }
 
   return (
     <>
@@ -96,14 +103,7 @@ export default function AuthForm({
             {/* Show button to log in with face detection only for those with an account */}
             {isLogin && (
               <>
-                <button
-                  type="button"
-                  className={styles.faceIdBtn}
-                  onClick={handleStartCamera}
-                  popoverTarget="my-popover"
-                >
-                  Log in with face id
-                </button>
+                <LogInFaceBtn videoRef={videoRef} setStream={setStream} toast={toast} />
                 <p className={styles.paraDivider}>or</p>
               </>
             )}
@@ -138,7 +138,7 @@ export default function AuthForm({
               id="password"
               placeholder="**************"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               className={styles.input}
               required
             />

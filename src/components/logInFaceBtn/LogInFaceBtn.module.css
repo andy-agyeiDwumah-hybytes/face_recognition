@@ -1,0 +1,14 @@
+.faceIdBtn {
+    margin-block: 1.2em;
+    transition-property: background-color color;
+    transition-duration: 400ms;
+    transition-timing-function: ease-in;
+    color: #000;
+    background-color: #EAEAEA;
+    font-weight: 600;
+
+    &:hover {
+        background-color: #000;
+        color: var(--clr-secondary);
+    }
+}
