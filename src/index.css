@@ -24,6 +24,5 @@ button {
 /* Styles the box, which is the size of the viewport, when popover is open */
 /* Adjust transparency to ensure that content is still visible */
 .popover::backdrop {
-  background-color: rgba(
-    from var(--clr-primary) calc(r - 20) calc(g - 20) calc(b - 20) / calc(alpha - 0.5));
+    background-color: rgba(from var(--clr-primary) r g b / calc(alpha - 0.3));
 }

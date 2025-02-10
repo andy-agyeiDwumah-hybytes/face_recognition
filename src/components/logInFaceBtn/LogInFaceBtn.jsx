@@ -1,7 +1,7 @@
 // Styles
 import styles from "./LogInFaceBtn.module.css";
 
-export default function LogInFaceBtn({ videoRef, setStream, toast }) {
+export default function LogInFaceBtn({ videoRef, setStream, toast, popOverRef }) {
   const handleStartCamera = async () => {
     // Get access to user's camera and show real time video
     try {
@@ -14,6 +14,8 @@ export default function LogInFaceBtn({ videoRef, setStream, toast }) {
     } catch (e) {
       console.error(`(AuthForm.jsx): ${e}`);
       toast.error("Please allow camera access to set up Face Recognition.");
+      // If user denies access hide popover
+      popOverRef.current.hidePopover()
     }
   };
 

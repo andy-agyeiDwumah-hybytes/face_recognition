@@ -7,8 +7,10 @@
     background-color: #EAEAEA;
     font-weight: 600;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
         background-color: #000;
         color: var(--clr-secondary);
+        box-shadow: 3px 3px 8px #000;
     }
 }

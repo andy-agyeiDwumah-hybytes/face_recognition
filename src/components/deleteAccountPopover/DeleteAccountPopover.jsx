@@ -1,6 +1,5 @@
 // React
 import { useNavigate } from "react-router";
-import { useRef } from "react";
 // Utils
 import { deleteAccount } from "../../utils/authUtils";
 // React toastify
@@ -10,8 +9,11 @@ import { auth } from "../../firebase";
 // Styles
 import styles from "./DeleteAccountPopover.module.css";
 
-export default function DeleteAccountPopover({ stream, handleCancelVideo }) {
-  const popoverRef = useRef();
+export default function DeleteAccountPopover({
+  popoverRef,
+  stream,
+  handleCancelVideo,
+}) {
   const navigate = useNavigate();
 
   const handleDeleteAccount = async (currentUser) => {
@@ -30,13 +32,13 @@ export default function DeleteAccountPopover({ stream, handleCancelVideo }) {
       );
     }
   };
+
+  const handleCloseModal = () => {
+    popoverRef.current.close();
+  };
+
   return (
-    <div
-      ref={popoverRef}
-      popover="auto"
-      id="deletePopover"
-      className={[styles.popover, "popover"].join(" ")}
-    >
+    <dialog ref={popoverRef} className={[styles.dialog, "popover"].join(" ")}>
       <h4 className={styles.deleteHeading}>
         Are you sure you would like to delete your account? This action cannot
         be undone.
@@ -50,12 +52,11 @@ export default function DeleteAccountPopover({ stream, handleCancelVideo }) {
       </button>
       <button
         type="button"
-        popoverTargetAction="hide"
-        popoverTarget="deletePopover"
+        onClick={handleCloseModal}
         className={[styles.btn, styles.cancelBtn].join(" ")}
       >
         Cancel
       </button>
-    </div>
+    </dialog>
   );
 }

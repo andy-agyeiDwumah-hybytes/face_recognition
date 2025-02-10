@@ -1,5 +1,5 @@
 // React
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 // Context
 import { UserContext } from "../../context/userContext";
@@ -17,6 +17,7 @@ export default function Home() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [stream, setStream] = useState(null); // Store video stream
+  const popoverRef = useRef();
 
   const handleCancelVideo = () => {
     // Stop all tracks
@@ -38,6 +39,10 @@ export default function Home() {
         "We encountered an issue while logging you out of your account. Please try again."
       );
     }
+  };
+
+  const handleShowModal = () => {
+    popoverRef.current.showModal();
   };
 
   return (
@@ -68,12 +73,13 @@ export default function Home() {
         <button
           type="button"
           className={styles.deleteAccountBtn}
-          popoverTarget="deletePopover"
+          onClick={handleShowModal}
         >
           Delete account
         </button>
       </div>
       <DeleteAccountPopover
+        popoverRef={popoverRef}
         stream={stream}
         handleCancelVideo={handleCancelVideo}
       />

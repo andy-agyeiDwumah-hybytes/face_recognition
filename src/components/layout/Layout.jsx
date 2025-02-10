@@ -12,7 +12,7 @@ export default function Layout() {
   return authIsReady ? (
     <main>
       <Outlet />
-      <ToastContainer />
+      <ToastContainer stacked />
     </main>
   ) : (
     <div>Loading...</div>
