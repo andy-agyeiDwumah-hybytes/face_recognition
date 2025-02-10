@@ -51,7 +51,6 @@ export default function Form() {
     const userPassword = formData.get("password").trim();
     const userConfirmPassword = formData.get("passwordConfirm").trim();
     const userPasswordStatus = await validatePassword(auth, userPassword)
-    const userConfirmPasswordStatus = await validatePassword(auth, userConfirmPassword)
     // Get password policy from Firebase
     const passwordPolicy = userPasswordStatus.passwordPolicy.customStrengthOptions
     // Check for empty fields and/or email failing validation
@@ -70,15 +69,32 @@ export default function Form() {
     ) {
       setPasswordError(bothPasswordFieldsRequired);
       // Check password meets requirements
-    } else if (
-      !userPasswordStatus.isValid || !userConfirmPasswordStatus.isValid
-    ) {
+    } else if (!userPasswordStatus.isValid) {
       let text = "Password must meet the following requirements:\n\n";
+      let obj = {};
       // Get each password requirement
       for (const [key, value] of Object.entries(passwordPolicy)) {
-        // Check if field is numeric and show value if true
-        const fieldIsNumeric = typeof value === "number" ? `${key}: ${value}\n` : `${key}\n`
-        text += fieldIsNumeric 
+        // Check if field is numeric and store value
+        if (typeof value === "number") {
+          obj[key] = value
+        } else {
+          obj[key] = ""
+        }
+      }
+      if (!userPasswordStatus.containsLowercaseLetter) {
+        text += "Contains lower case letter\n"
+      }
+      if (!userPasswordStatus.containsNonAlphanumericCharacter) {
+        text += "Contains non alphanumeric character\n";
+      }
+      if (!userPasswordStatus.containsNumericCharacter) {
+        text += "Contains numeric character\n";
+      }
+      if (!userPasswordStatus.containsUppercaseLetter) {
+        text += "Contains uppercase character\n";
+      }
+      if (!userPasswordStatus.meetsMinPasswordLength) {
+        text += `Meets minimum password length: ${obj.minPasswordLength}`;
       }
       setPasswordError(text);
       // Check for passwords matching
@@ -94,8 +110,7 @@ export default function Form() {
       userPassword &&
       userConfirmPassword &&
       userPassword === userConfirmPassword &&
-      userPasswordStatus.isValid &&
-      userConfirmPasswordStatus.isValid
+      userPasswordStatus.isValid
     ) {
       try {
         // * Simulate login delay (not really necessary, just for experience)
@@ -165,7 +180,6 @@ export default function Form() {
   };
 
   const handleSubmit = async formData => {
-    // Call appropriate function
     if (isLogin) {
       await handleLogIn(formData);
     } else {
@@ -174,24 +188,22 @@ export default function Form() {
   };
 
   return (
-    <>
-      <AuthForm
-        handleSubmit={handleSubmit}
-        handleClick={handleClick}
-        isLogin={isLogin}
-        EMAILREGEXPATTERN={EMAILREGEXPATTERN}
-        email={email}
-        setEmail={setEmail}
-        emailPattern={EMAILPATTERN}
-        emailError={emailError}
-        formHasBeenSubmitted={formHasBeenSubmitted}
-        password={password}
-        setPassword={setPassword}
-        passwordError={passwordError}
-        confirmPassword={confirmPassword}
-        setConfirmPassword={setConfirmPassword}
-        formRef={formRef}
-      />
-    </>
+    <AuthForm
+      handleSubmit={handleSubmit}
+      handleClick={handleClick}
+      isLogin={isLogin}
+      EMAILREGEXPATTERN={EMAILREGEXPATTERN}
+      email={email}
+      setEmail={setEmail}
+      emailPattern={EMAILPATTERN}
+      emailError={emailError}
+      formHasBeenSubmitted={formHasBeenSubmitted}
+      password={password}
+      setPassword={setPassword}
+      passwordError={passwordError}
+      confirmPassword={confirmPassword}
+      setConfirmPassword={setConfirmPassword}
+      formRef={formRef}
+    />
   );
 }
