@@ -24,7 +24,9 @@ Follow these steps to get the project up and running on your local machine.
 
 * Create a new project with [Firebase](https://console.firebase.google.com/?_gl=1*171i0zp*_up*MQ..*_ga*MTcxMzk4Mjk4Ny4xNzM5MDI4NTgw*_ga_CW55HF8NVT*MTczOTAyODU4MC4xLjAuMTczOTAyODU4MC4wLjAuMA..)
 
-* Enable Email/Password Authentication
+* In the Authentication section:
+1. Enable Email/Password as a Sign-in provider
+2. Select all boxes apart from 'Force upgrade on sign-in' in the Password Policy
 * Set up a Cloud Firestore database and add a new Web App to you Firebase project
  to obtain your Firebase configuration
 
