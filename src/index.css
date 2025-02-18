@@ -19,6 +19,16 @@ body {
 
 button {
   cursor: pointer;
+  color: #000;
+  border-color: #000;
+  line-height: 1.8;
+  padding-inline: 1em;
+  border-radius: 0.5rem;
+  background-color: #EEF0EB;
+}
+
+button:disabled {
+  background-color: #D3D5D7;
 }
 
 /* Styles the box, which is the size of the viewport, when popover is open */
