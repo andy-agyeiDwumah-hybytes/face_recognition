@@ -83,7 +83,7 @@ export default function SetupFaceRecognition({ user, stream, setStream, handleCa
         type="button"
         className={styles.setUpFaceBtn}
         onClick={stream ? handleFaceRecognition : handleStartCamera}
-        disabled={isSettingUpFaceRecognition}
+        disabled={isSettingUpFaceRecognition || faceRecognitionSetUp}
       >
         {stream ? "Start scanning" : "Set up face recognition"}
       </button>
