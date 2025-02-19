@@ -22,7 +22,7 @@ Follow these steps to get the project up and running on your local machine.
 
 ### 2. Create a Firebase Project
 
-* Create a new project with [Firebase](https://console.firebase.google.com/?_gl=1*171i0zp*_up*MQ..*_ga*MTcxMzk4Mjk4Ny4xNzM5MDI4NTgw*_ga_CW55HF8NVT*MTczOTAyODU4MC4xLjAuMTczOTAyODU4MC4wLjAuMA..)
+* Create a new project with [Firebase](https://firebase.google.com/)
 
 * In the Authentication section:
 1. Enable Email/Password as a Sign-in provider
