@@ -42,6 +42,7 @@ export const signUpUser = async (email, password) => {
     email: email,
     password: password,
     uid: newUser.uid,
+    faceRecognitionSetUp: false,
   });
   return newUser;
 };
@@ -122,13 +123,20 @@ export const storeFaceDetails = async (
       "(SetUpFace.jsx) Face detected. Your details: \n",
       faceDescriptor
     );
-    // Store in database
-    await setDoc(doc(firestore, FACEDATA, user.uid), {
+
+    const batch = writeBatch(firestore);
+
+    batch.set(doc(firestore, FACEDATA, user.uid), {
       // Convert Float32Array to array
       descriptor: Array.from(faceDescriptor),
-      faceRecognitionSetUp: true,
       email: user.email,
     });
+    batch.update(doc(firestore, USERS, user.uid), {
+      faceRecognitionSetUp: true,
+    });
+    // Commit to Firestore
+    await batch.commit();
+
     toast.success("Face Recognition Setup was successful.");
     handleCancelVideo();
   } else {
@@ -139,10 +147,10 @@ export const storeFaceDetails = async (
 };
 
 export const checkUserHasFaceDetailsSetUp = async user => {
-  const docRef = doc(firestore, FACEDATA, user.uid);
+  const docRef = doc(firestore, USERS, user.uid);
   const docSnap = await getDoc(docRef);
 
-  return docSnap.exists() ? true : false;
+  return docSnap.data().faceRecognitionSetUp ? true : false;
 };
 
 export const deleteAccount = async user => {
