@@ -21,7 +21,7 @@ export default function Home() {
   const [stream, setStream] = useState(null); // Store video stream
   const popoverRef = useRef();
 
-  useTrapModalFocus(popoverRef, ["button"])
+  useTrapModalFocus(popoverRef)
 
   const handleCancelVideo = () => {
     // Stop all tracks
