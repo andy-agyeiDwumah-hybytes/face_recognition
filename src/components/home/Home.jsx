@@ -1,5 +1,5 @@
 // React
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 // Context
 import { UserContext } from "../../context/userContext";
@@ -12,44 +12,16 @@ import DeleteAccountPopover from "../deleteAccountPopover/deleteAccountPopover";
 import { signOutUser } from "../../utils/authUtils";
 // React toastify
 import { toast } from "react-toastify";
+// Hooks
+import { useTrapModalFocus } from "../../hooks/useTrapModalFocus";
 
 export default function Home() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [stream, setStream] = useState(null); // Store video stream
   const popoverRef = useRef();
-  const firstElementInPopover = useRef();
-  const lastElementInPopover = useRef();
 
-  useEffect(() => {
-    const trapModalFocus = e => {
-      // Store elements that have a tab index inside modal
-      const focusableElements = popoverRef?.current.querySelectorAll("button");
-      firstElementInPopover.current = focusableElements[0];
-      lastElementInPopover.current =
-        focusableElements[focusableElements.length - 1];
-      // Check for forward tabbing
-      if (
-        document.activeElement === lastElementInPopover.current &&
-        e.key === "Tab" &&
-        !e.shiftKey
-      ) {
-        e.preventDefault(); // ! Prevent the default tab behavior
-        firstElementInPopover.current.focus();
-      }
-      // Check for reverse tabbing (shift + tab)
-      if (
-        document.activeElement === firstElementInPopover.current &&
-        e.key === "Tab" &&
-        e.shiftKey
-      ) {
-        e.preventDefault();
-        lastElementInPopover.current.focus();
-      }
-    };
-    document.addEventListener("keydown", trapModalFocus);
-    return () => document.removeEventListener("keydown", trapModalFocus);
-  });
+  useTrapModalFocus(popoverRef, ["button"])
 
   const handleCancelVideo = () => {
     // Stop all tracks
