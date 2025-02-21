@@ -14,6 +14,8 @@ import { validatePassword } from "firebase/auth";
 import { auth } from "../../firebase";
 // Utils
 import { displayPasswordPolicy } from "../../utils/passwordUtils";
+// Hooks
+import { useTrapModalFocus } from "../../hooks/useTrapModalFocus";
 
 export default function AuthForm({
   handleSubmit,
@@ -37,15 +39,12 @@ export default function AuthForm({
   const videoRef = useRef();
   const popOverRef = useRef();
 
+  useTrapModalFocus(popOverRef, ["button"])
+
   useEffect(() => {
     const cancelVideo = e => {
-      // Close video when click is detected outside popover element OR 'esc' key is pressed
-      if (
-        (stream &&
-          e.target !== popOverRef.current &&
-          e.target !== videoRef.current) ||
-       stream && e.code === "Escape"
-      ) {
+      // Cancel video when 'esc' key is pressed
+      if (stream && e.code === "Escape") {
         // Stop all tracks
         stream.getTracks().forEach((track) => track.stop());
         setStream(null);
@@ -64,7 +63,7 @@ export default function AuthForm({
     stream.getTracks().forEach(track => track.stop());
     setStream(null);
     // Manually hide popover
-    popOverRef.current.hidePopover();
+    popOverRef.current.close();
   };
 
   const handlePasswordChange = async (e) => {
@@ -123,85 +122,83 @@ export default function AuthForm({
           </div>
           {/* A wrapper to contain interactive elements */}
           {/* When video is on, disable all user input events for the element to prevent keyboard navigation */}
-          <div inert={stream}>
+          <div className={styles.labelInputWrapper}>
+            <label htmlFor="email" className={styles.label}>
+              Email:{" "}
+            </label>
+            <input
+              type="email"
+              inputMode="email"
+              name="email"
+              id="email"
+              pattern={EMAILREGEXPATTERN}
+              placeholder="johnDoe@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
+              required
+            />
+          </div>
+          {formHasBeenSubmitted && !emailPattern.test(email.trim()) && (
+            <p className={styles.error}>{emailError}</p>
+          )}
+          <div className={styles.labelInputWrapper}>
+            <label htmlFor="password" className={styles.label}>
+              Password:{" "}
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="**************"
+              value={password}
+              onChange={handlePasswordChange}
+              className={styles.input}
+              required
+            />
+          </div>
+          {/* Show 'confirm password' field for users who do not have an account */}
+          {!isLogin && (
             <div className={styles.labelInputWrapper}>
-              <label htmlFor="email" className={styles.label}>
-                Email:{" "}
-              </label>
-              <input
-                type="email"
-                inputMode="email"
-                name="email"
-                id="email"
-                pattern={EMAILREGEXPATTERN}
-                placeholder="johnDoe@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-                required
-              />
-            </div>
-            {formHasBeenSubmitted && !emailPattern.test(email.trim()) && (
-              <p className={styles.error}>{emailError}</p>
-            )}
-            <div className={styles.labelInputWrapper}>
-              <label htmlFor="password" className={styles.label}>
-                Password:{" "}
+              <label htmlFor="passwordConfirm" className={styles.label}>
+                Confirm Password:{" "}
               </label>
               <input
                 type="password"
-                name="password"
-                id="password"
+                name="passwordConfirm"
+                id="passwordConfirm"
                 placeholder="**************"
-                value={password}
-                onChange={handlePasswordChange}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className={styles.input}
                 required
               />
             </div>
-            {/* Show 'confirm password' field for users who do not have an account */}
-            {!isLogin && (
-              <div className={styles.labelInputWrapper}>
-                <label htmlFor="passwordConfirm" className={styles.label}>
-                  Confirm Password:{" "}
-                </label>
-                <input
-                  type="password"
-                  name="passwordConfirm"
-                  id="passwordConfirm"
-                  placeholder="**************"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={styles.input}
-                  required
-                />
-              </div>
-            )}
-            {formHasBeenSubmitted && passwordError && (
-              <p className={styles.error}>{passwordError}</p>
-            )}
-            <div className={styles.forgotPasswordWrapper}>
-              <Link to="/" className={styles.forgotPassword}>
-                Forgot password?
-              </Link>
-            </div>
-            <div className={styles.btnWrapper}>
-              <FormBtn
-                type="submit"
-                className={[styles.btn, styles.btnSubmit].join(" ")}
-              >
-                {isLogin ? "Log In" : "Sign Up"}
-              </FormBtn>
-              <FormBtn
-                type="button"
-                className={[styles.btn, styles.btnToggleFormStatus].join(" ")}
-                handleClick={handleClick}
-              >
-                {isLogin ? "Sign Up?" : "Log In?"}
-              </FormBtn>
-            </div>
+          )}
+          {formHasBeenSubmitted && passwordError && (
+            <p className={styles.error}>{passwordError}</p>
+          )}
+          <div className={styles.forgotPasswordWrapper}>
+            <Link to="/" className={styles.forgotPassword}>
+              Forgot password?
+            </Link>
           </div>
-        </div>
+          <div className={styles.btnWrapper}>
+            <FormBtn
+              type="submit"
+              className={[styles.btn, styles.btnSubmit].join(" ")}
+            >
+              {isLogin ? "Log In" : "Sign Up"}
+            </FormBtn>
+            <FormBtn
+              type="button"
+              className={[styles.btn, styles.btnToggleFormStatus].join(" ")}
+              handleClick={handleClick}
+            >
+              {isLogin ? "Sign Up?" : "Log In?"}
+            </FormBtn>
+          </div>
+      </div>
       </form>
       <LogInFaceRecognition
         handleCancelVideo={handleCancelVideo}

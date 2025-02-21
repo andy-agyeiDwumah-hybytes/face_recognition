@@ -5,6 +5,7 @@ export default function LogInFaceBtn({ videoRef, setStream, toast, popOverRef })
   const handleStartCamera = async () => {
     // Get access to user's camera and show real time video
     try {
+      popOverRef.current.showModal()
       const userStream = await navigator.mediaDevices.getUserMedia({
         video: true,
       });
@@ -24,7 +25,6 @@ export default function LogInFaceBtn({ videoRef, setStream, toast, popOverRef })
       type="button"
       className={styles.faceIdBtn}
       onClick={handleStartCamera}
-      popoverTarget="my-popover"
     >
       Log in with face id
     </button>

@@ -61,9 +61,7 @@ export default function LogInFaceRecognition({
   };
 
   return (
-    <div
-      popover="auto"
-      id="my-popover"
+    <dialog
       ref={popOverRef}
       className={[styles.videoWrapper, "popover"].join(" ")}
     >
@@ -89,6 +87,6 @@ export default function LogInFaceRecognition({
       {userIsLoggingIn && (
         <p className={styles.scanningText}>Scanning face...</p>
       )}
-    </div>
+    </dialog>
   );
 }
