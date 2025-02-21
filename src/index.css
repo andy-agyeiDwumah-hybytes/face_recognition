@@ -25,6 +25,10 @@ button {
   padding-inline: 1em;
   border-radius: 0.5rem;
   background-color: #EEF0EB;
+
+  &:focus-visible {
+    outline: 5px solid rgb(161, 194, 240);
+  }
 }
 
 button:disabled {

@@ -1,17 +1,18 @@
 // React
 import { useEffect } from "react";
 
-export const useTrapModalFocus = popover => {
+export const useTrapModalFocus = (popover, listOfTabbableElements) => {
   useEffect(() => {
     const trapModalFocus = e => {
       // Only run function if popover is open
-      if (popover.current.getAttribute("open") === null) {
+      if (!popover.current || popover.current.getAttribute("open") === null) {
         return;
       }
-      // Store elements that can receive focus inside modal
       const focusableElements = Array.from(
-        popover.current.querySelectorAll("*")
-      ).filter(element => element.tabIndex >= 0);
+        popover.current.querySelectorAll(listOfTabbableElements.join(", "))
+      );
+
+      if (!focusableElements.length) return;
 
       const firstFocusableElementInPopover = focusableElements[0];
       const lastFocusableElementInPopover =
@@ -38,5 +39,5 @@ export const useTrapModalFocus = popover => {
     };
     document.addEventListener("keydown", trapModalFocus);
     return () => document.removeEventListener("keydown", trapModalFocus);
-  });
+  }, [popover, listOfTabbableElements]);
 };
