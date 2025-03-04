@@ -16,7 +16,7 @@ export default function LogInFaceBtn({ videoRef, setStream, toast, popOverRef })
       console.error(`(AuthForm.jsx): ${e}`);
       toast.error("Please allow camera access to set up Face Recognition.");
       // If user denies access hide popover
-      popOverRef.current.hidePopover()
+      popOverRef.current.close()
     }
   };
 

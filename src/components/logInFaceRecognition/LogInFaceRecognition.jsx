@@ -8,7 +8,7 @@ import { UserContext } from "../../context/userContext";
 // Styles
 import styles from "./LogInFaceRecognition.module.css"
 // Utils
-import { drawVideoFrameOnCanvas } from "../../utils/canvasUtils"
+import { drawVideoFrameOnCanvas } from "../../utils/canvasUtils";
 import { getUserPassword, logInUser, matchDetectedFace } from "../../utils/authUtils";
 // React toastify
 import { toast } from "react-toastify";
@@ -33,9 +33,13 @@ export default function LogInFaceRecognition({
       .withFaceDescriptor();
 
     // * Simulate login delay (not really necessary, just for experience)
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // await new Promise(resolve => setTimeout(resolve, 2000));
     if (!detections) {
-      toast.error("No face detected. Try better lighting or adjust the camera angle.")
+      setUserIsLoggingIn(false);
+      handleCancelVideo(); // Hide video
+      toast.error(
+        "No face detected. Try better lighting or adjust the camera angle."
+      );
     } else {
       try {
         const bestMatch = await matchDetectedFace(faceapi, detections);
@@ -54,10 +58,11 @@ export default function LogInFaceRecognition({
         console.error(`(LogInFaceRecognition.jsx): ${e}`);
         // Also for accounts that are disabled 
         toast.error("There was an error fetching Face Recognition data.");
+      } finally {
+        setUserIsLoggingIn(false);
+        handleCancelVideo();
       }
     }
-    setUserIsLoggingIn(false);
-    handleCancelVideo(); // Hide video
   };
 
   return (
