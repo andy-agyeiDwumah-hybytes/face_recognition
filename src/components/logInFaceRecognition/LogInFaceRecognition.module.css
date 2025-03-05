@@ -11,6 +11,7 @@
     aspect-ratio: 2 / 2;
     display: block;
     margin-block-end: 1em;
+    margin-inline: auto;
 }
 
 .btnWrapper {
@@ -42,6 +43,7 @@
     font-weight: 600;
     color: var(--clr-secondary);
     font-size: 1.2rem;
+    text-align: center;
 }
 
 @media (width >= 280px) {
